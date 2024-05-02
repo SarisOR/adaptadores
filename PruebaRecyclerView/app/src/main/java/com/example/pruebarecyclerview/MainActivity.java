@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.example.pruebarecyclerview.adaptadores.UsuarioAdaptador;
 import com.example.pruebarecyclerview.clases.Usuario;
@@ -13,7 +14,7 @@ import com.example.pruebarecyclerview.clases.Usuario;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements UsuarioAdaptador.OnItemClickListener {
 
     RecyclerView rcv_usuarios;
     List<Usuario> usuarioList = new ArrayList<>();
@@ -38,5 +39,15 @@ public class MainActivity extends AppCompatActivity {
 
         rcv_usuarios.setLayoutManager(new LinearLayoutManager(this));
         rcv_usuarios.setAdapter(new UsuarioAdaptador(usuarioList));
+
+        UsuarioAdaptador adaptador = new UsuarioAdaptador(usuarioList);
+        rcv_usuarios.setAdapter(adaptador);
+        adaptador.setOnItemClickListener(this);
+    }
+
+    @Override
+    public void onItemClick(Usuario usuario) {
+        Intent i = new Intent(MainActivity.this, MainActivity2.class);
+        startActivity(i);
     }
 }

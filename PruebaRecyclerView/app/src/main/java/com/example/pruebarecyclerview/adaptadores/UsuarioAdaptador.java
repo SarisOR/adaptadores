@@ -21,6 +21,12 @@ public class UsuarioAdaptador extends RecyclerView.Adapter<UsuarioAdaptador.View
     public UsuarioAdaptador(List<Usuario> datos){
         this.datos = datos;
     }
+    private OnItemClickListener listener;
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
 
     @NonNull
     @Override
@@ -33,6 +39,14 @@ public class UsuarioAdaptador extends RecyclerView.Adapter<UsuarioAdaptador.View
     public void onBindViewHolder(@NonNull UsuarioAdaptador.ViewHolder holder, int position) {
         Usuario dato = datos.get(position);
         holder.bind(dato);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    listener.onItemClick(dato);
+                }
+            }
+        });
     }
 
     @Override
@@ -57,4 +71,8 @@ public class UsuarioAdaptador extends RecyclerView.Adapter<UsuarioAdaptador.View
             Picasso.get().load(dato.getImagen()).into(img_usuario);
         }
     }
+    public interface OnItemClickListener {
+        void onItemClick(Usuario usuario);
+    }
+
 }
